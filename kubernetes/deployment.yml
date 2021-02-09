@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appmonitor
+  labels:
+    app: appmonitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appmonitor
+  template:
+    metadata:
+      labels:
+        app: appmonitor
+    spec:
+      containers:
+      - name: appmonitor
+        image: smvfal/appmonitor:latest
