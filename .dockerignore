@@ -1,3 +1,5 @@
 appmonitor
 kubernetes
+example_app
+test_local
 *.sh
