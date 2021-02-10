@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
     "strconv"
+    "strings"
 
 	"github.com/prometheus/client_golang/api"
 	v1 "github.com/prometheus/client_golang/api/prometheus/v1"
@@ -13,6 +14,10 @@ import (
 
 func main() {
 
+    appname , ok := os.LookupEnv("APPLICATION_NAME")
+    if !ok {
+        fmt.Printf("Application name not set\n")
+    }
     prometheus, ok := os.LookupEnv("PROMETHEUS_HOSTNAME")
     if !ok {
         fmt.Printf("Prometheus hostname not set\n")
@@ -40,8 +45,13 @@ func main() {
 	}
 
 	v1api := v1.NewAPI(client)
-	// query := "(rate(gateway_functions_seconds_sum[20s]) / rate(gateway_functions_seconds_count[20s]))"
-	query := "up"
+
+    var b strings.Builder
+    fmt.Fprintf(&b, "rate(gateway_functions_seconds_sum{function_name='%s'}[20s]) / ", appname)
+	fmt.Fprintf(&b, "rate(gateway_functions_seconds_count{function_name='%s'}[20s])", appname)
+	query := b.String()
+    fmt.Println("Query: " + query)
+
     for {
         ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
         defer cancel() //TODO: avoid stacking

@@ -17,3 +17,9 @@ spec:
       containers:
       - name: appmonitor
         image: smvfal/appmonitor:latest
+        env:
+          - name: APPLICATION_NAME
+            value: "sequence-orchestrator.openfaas-fn"
+          - name: QUERY_PERIOD
+            value: "20"
+
