@@ -1,0 +1,34 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  sequence-orchestrator:
+    lang: python3
+    handler: ./sequence-orchestrator
+    image: smvfal/sequence-orchestrator:latest
+    environment:
+      gateway_hostname: gateway.openfaas
+
+  appender-0:
+    lang: python3
+    handler: ./appender
+    image: smvfal/appender:latest
+    environment:
+      message: "- handled by 0"
+
+  appender-1:
+    lang: python3
+    handler: ./appender
+    image: smvfal/appender:latest
+    environment:
+      message: "- handled by 1"
+
+  appender-2:
+    lang: python3
+    handler: ./appender
+    image: smvfal/appender:latest
+    environment:
+      message: "- handled by 2"
+
