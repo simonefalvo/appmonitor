@@ -3,6 +3,10 @@ provider:
   name: openfaas
   gateway: http://127.0.0.1:8080
 
+configuration:
+  templates:
+    - name: python3
+
 functions:
   sequence-orchestrator:
     lang: python3
@@ -10,6 +14,9 @@ functions:
     image: smvfal/sequence-orchestrator:latest
     environment:
       gateway_hostname: gateway.openfaas
+    annotations:
+      prometheus.io.scrape: true 
+      prometheus.io.port: 8081
 
   appender-0:
     lang: python3
@@ -17,6 +24,9 @@ functions:
     image: smvfal/appender:latest
     environment:
       message: "- handled by 0"
+    annotations:
+      prometheus.io.scrape: true 
+      prometheus.io.port: 8081
 
   appender-1:
     lang: python3
@@ -24,6 +34,9 @@ functions:
     image: smvfal/appender:latest
     environment:
       message: "- handled by 1"
+    annotations:
+      prometheus.io.scrape: true 
+      prometheus.io.port: 8081
 
   appender-2:
     lang: python3
@@ -31,4 +44,7 @@ functions:
     image: smvfal/appender:latest
     environment:
       message: "- handled by 2"
+    annotations:
+      prometheus.io.scrape: true 
+      prometheus.io.port: 8081
 
